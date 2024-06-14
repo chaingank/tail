@@ -7,6 +7,7 @@ package watch
 import (
 	"os"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/nxadm/tail/util"
@@ -77,6 +78,11 @@ func (fw *PollingFileWatcher) ChangeEvents(t *tomb.Tomb, pos int64) (*FileChange
 					return
 				}
 
+				if strings.Contains(err.Error(), "host is down") {
+					util.Error("Failed to stat file %v: %v", fw.Filename, err)
+					time.Sleep(10 * POLL_DURATION)
+					continue
+				}
 				// XXX: report this error back to the user
 				util.Fatal("Failed to stat file %v: %v", fw.Filename, err)
 			}
