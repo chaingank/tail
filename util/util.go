@@ -25,7 +25,7 @@ func Fatal(format string, v ...interface{}) {
 }
 
 func Error(format string, v ...interface{}) {
-	LOGGER.Output(2, fmt.Sprintf("ERROR -- "+format, v...)+"\n"+string(debug.Stack()))
+	LOGGER.Output(2, fmt.Sprintf("ERROR -- "+format, v...))
 }
 
 // partitionString partitions the string into chunks of given size,

@@ -31,7 +31,7 @@ func (fw *PollingFileWatcher) BlockUntilExists(t *tomb.Tomb) error {
 	for {
 		if _, err := os.Stat(fw.Filename); err == nil {
 			return nil
-		} else if !os.IsNotExist(err) {
+		} else if !os.IsNotExist(err) && !strings.Contains(err.Error(), "host is down") {
 			return err
 		}
 		select {
